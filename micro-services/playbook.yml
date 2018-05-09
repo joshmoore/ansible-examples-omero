@@ -1,0 +1,38 @@
+# Install the following on a single host:
+#  - PostgreSQL & OMERO.server: main server
+#  - redis: shared session state
+#  - OMERO.web: base website
+#  - nginx: allows overriding URLs
+#  - some set of microservices which are tied
+#    to particular URLs
+
+- hosts: all
+  roles:
+
+    - role: openmicroscopy.postgresql
+      postgresql_databases:
+      - name: omero
+      postgresql_users:
+      - user: omero
+        password: omero
+        databases: [omero]
+      postgresql_version: "9.6"
+
+    - role: openmicroscopy.omero-server
+      omero_server_release: 5.4.5
+
+    - role: openmicroscopy.omero-web
+      omero_web_release: 5.4.5
+
+    - role: openmicroscopy.nginx
+
+    - role: openmicroscopy.redis
+
+  vars:
+    java_jdk_install: True
+    omero_web_config_set:
+      omero.web.session_engine: django.contrib.sessions.backends.cache
+      omero.web.caches:
+        default:
+          BACKEND: django_redis.cache.RedisCache
+          LOCATION: redis://{ omero_redis_host_ansible | default('127.0.0.1') }}:6379/0
