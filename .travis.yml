@@ -11,6 +11,7 @@ script:
   - cd $PLAYBOOKDIR && molecule test
 
 env:
+  - PLAYBOOKDIR=micro-services
   - PLAYBOOKDIR=public-user
   - PLAYBOOKDIR=read-only
   - PLAYBOOKDIR=three-nodes
