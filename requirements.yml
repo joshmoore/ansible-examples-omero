@@ -1,7 +1,13 @@
 ---
 
+- name: openmicroscopy.nginx
+  version: 1.0.0
+
 - src: openmicroscopy.postgresql
   version: 3.0.1
+
+- name: openmicroscopy.redis
+  version: 1.1.0
 
 - src: openmicroscopy.omero-common
   version: 0.3.0
@@ -15,5 +21,5 @@
 - name: openmicroscopy.omero-web
   version: 1.0.2
 
-- name: omero-user
+- name: openmicroscopy.omero-user
   version: 0.1.1
